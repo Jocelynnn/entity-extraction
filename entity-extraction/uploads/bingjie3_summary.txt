@@ -1,0 +1,9 @@
+## aspect rating and aspect weight
+## latent Aspect Rating Analysis (LARA)
+## text-based prediction
+## contextual text mining
+## contextual probabilistic latent semantic analysis (CPLSA): views of a topic and coverage of topics
+## spatiotemporal trends of topics
+## network-regularized topic modeling
+## netPLSA
+## iterative topic modeling with time series supervision
