@@ -112,6 +112,14 @@
 //                                    link.type = "four";
 //                                }
 //                            });
+                            var link_tip = d3.tip()
+                                .attr('class', 'd3-tip')
+                                .offset([-10, 0])
+                                .html(function (d) {
+                                    return  d.type + "";
+                                })
+                            svg.call(link_tip);
+
                             link = svg.append("g")
                                 .attr("class", "links")
                                 .selectAll("line")
@@ -119,8 +127,10 @@
                                 .enter().append("line")
                                 .style("stroke", function(d) {return color(d.type);})
 //                                .attr("class", function(d) { return d.type; })
-                                .attr("stroke-width", "2")
-                                .on('dblclick', highlightlink);
+                                .attr("stroke-width", "3")
+                                .on('mouseover', link_tip.show) //Added
+                                .on('mouseout', link_tip.hide)//Added
+                                .on('click', highlightlink);
 
                             //Set up tooltip
                             var tip = d3.tip()
@@ -128,9 +138,8 @@
                                 .offset([-10, 0])
                                 .html(function (d) {
                                     return  d.id + "";
-                                })
+                                });
                             svg.call(tip);
-
 
                             node = svg.append("g")
                                 .attr("class", "nodes")
@@ -206,9 +215,18 @@
 
                             function highlightlink(){
                                 d = d3.select(this).node().__data__;
+
+                                var selected = link.filter(function (item, i) {
+                                    return d.source.index != item.source.index | d.target.index != item.target.index;
+                                });
+                                selected.style("opacity", "0");
+                                d3.selectAll("circle, line").transition()
+                                    .duration(2000)
+                                    .style("opacity", 1);
+
                                 console.log(d);
                                 var query_target = new RegExp(d.target.id, 'g');
-                                var query_source = new RegExp(d.source.id, "g");
+                                var query_source = new RegExp(d.source.id, 'g');
                                 var target_repl = '<span class="target" style="color: red;">' + d.target.id + '</span>';
                                 var source_repl = '<span class="myClass" style="color: blue;">' + d.source.id + '</span>';
                                 var mention_hi = d.mention.replace(query_target, target_repl);
@@ -255,7 +273,7 @@
                                 var link = svg.selectAll("line")
                                 link.style("opacity", "0");
                                 d3.selectAll("circle, line").transition()
-                                    .duration(5000)
+                                    .duration(6000)
                                     .style("opacity", 1);
                             }
                         }
@@ -299,7 +317,7 @@
                             document.getElementById('textInput').innerHTML=thresh;
                             svg.selectAll("line")
                                 .style("stroke-width", function(d) {
-                                    return d.value <= thresh ? 2:0;
+                                    return d.value <= thresh ? 3:0;
                                 });
                         }
 
