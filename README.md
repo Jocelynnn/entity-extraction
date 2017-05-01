@@ -1,6 +1,7 @@
 # entity-extraction
 To test it locally, go to directory entity-extraction
 1. run 
+#npm install d3
 #npm init
 #npm install express formidable --save
 2. You can now start the server by typing 
